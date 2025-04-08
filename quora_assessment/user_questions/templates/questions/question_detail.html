@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ question.title }}</title>
+</head>
+<body>
+    <h1>{{ question.title }}</h1>
+    <p>{{ question.body }}</p>
+    <p><strong>Asked by:</strong> {{ question.author.username }} on {{ question.created_at }}</p>
+
+    <hr>
+    <h2>Answers</h2>
+    {% for answer in answers %}
+        <div style="border:1px solid #ccc; margin:10px 0; padding:10px;">
+            <p>{{ answer.body }}</p>
+            <p>By {{ answer.author.username }} on {{ answer.created_at }}</p>
+            <a href="{% url 'like_answer' answer.id %}">Like</a>
+            ({{ answer.like_set.count }} likes)
+        </div>
+    {% empty %}
+        <p>No answers yet.</p>
+    {% endfor %}
+
+    <hr>
+    <h3>Submit Your Answer</h3>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit Answer</button>
+    </form>
+
+    <br>
+    <a href="{% url 'home' %}">Back to Questions</a>
+</body>
+</html>
